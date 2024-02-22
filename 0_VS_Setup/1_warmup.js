@@ -54,11 +54,11 @@
 // a. Hint: follow the pattern.
 variable1 = 1;
 variable2 = 2;
-variable3 3;
+variable3 = 3;
 
 // b. Hint: This function needs a name after the word function.
-function () {
-  console.log("Hello!");
+function hello() {
+    console.log("Hello!");
 }
 
 // EXERCISE 2. Producticity: Shorcuts and More.
@@ -70,7 +70,7 @@ function () {
 // Here we just learn a couple of useful tricks.
 
 // a. Comment out useless code with Ctrl-/ Ctrl-/ (Linux/Windows)
-// or Cmd-/ (Mac). Notice if you apply the command multiple times, it will
+// or Cmd-/ (Cmd-Shift-7) (Mac). Notice if you apply the command multiple times, it will
 // uncomment/comment/uncomment... it.
 
 // uselessCode = 'I am useless';
@@ -81,21 +81,21 @@ function () {
 
 // c. It would great if we could have a clone of ourselves, or even better
 // multiple clones. It turns out that you can do it in VS Code! Highlight
-// the word "not". Then press Ctrl-D (or Ctrl-Alt-Up/Down Arrow) as many times
+// the word "not". Then press Cmd-D (or Ctrl-Alt-Up/Down Arrow) as many times
 // as needed to highlight all the next occurrences of the word "not". 
 // At every word "not" there is a new cursor, so you can write multiple rows
 // at once. Delete "not" and replace the exclamation mark with a sad face. 
 
-catchMeIfYouCan1 = "You did not catch me!";
-catchMeIfYouCan2 = "You did not catch me!";
-catchMeIfYouCan3 = "You did not catch me!";
+catchMeIfYouCan1 = "You did catch me :(";
+catchMeIfYouCan2 = "You did catch me :(";
+catchMeIfYouCan3 = "You did catch me :(";
 
 // d. Sometimes you want to move an entire line of code up or down. Of course
-// there is a shortcut for that: Alt-ArrowUp/Down.
+// there is a shortcut for that: Option-ArrowUp/Down.
 
 // Order the lines below accordingly.
-console.log("2. I would like to go below.");
 console.log("1. I would like to go above.");
+console.log("2. I would like to go below.");
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
@@ -117,11 +117,11 @@ console.log("1. I would like to go above.");
 // portion of the code.
 
 let a = 1234;
-                a++;
+a++;
 if (a > 123) {
-a--;
-} else a++;
-            console.log(a);
+    a--;
+} else { a++; }
+console.log(a);
 
 // Nothing happened?
 // If so, your code (technically my code, if you just cloned it)
@@ -147,7 +147,7 @@ a--;
 // bracket get highlighted?
 
 if ((variable1 + variable2) > 1) {
-  console.log("Hei!");
+    console.log("Hei!");
 }
 
 // b. That was easy. In more complicated cases, you might want to use a
@@ -197,7 +197,7 @@ console.log(outcome);
 
 console.log("I want to say it 10 times:");
 for (let i = 0; i < 10; i++) {
-  console.log(i + 1 + ": " + outcome);
+    console.log(i + 1 + ": " + outcome);
 }
 console.log("Mike drop.");
 
