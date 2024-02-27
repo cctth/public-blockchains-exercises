@@ -83,6 +83,8 @@ console.log(primitive);
 
 // Assign the new string 'I am no longer primitive. I am making progress!'
 // to primitive and print it to console.
+primitive = 'I am no longer primitive. I am making progress!';
+console.log(primitive);
 
 // Technical Note! Before I said that primitive types are immutable and not
 // objects. While this is true, in JavaScript primitives are often wrapped in 
@@ -138,7 +140,7 @@ console.log('The type of Morpho is now: ' + typeof morpho);
 
 
 // Strings
-
+morpho = 'String';
 
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
@@ -147,31 +149,31 @@ console.log('The type of Morpho is now: ' + typeof morpho);
 
 // A one-type character string is also a string. Other languages have
 // the type 'char' for this special case, but not JS.
-
+morpho = 'c';
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
 // Booleans.
 
 // False.
-
+morpho = false;
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
 // True.
-
+morpho = true;
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
 // Not much to say about booleans, they are kind of booring. But useful.
 
 // Undefined.
-
+morpho = undefined;
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
 // Null
-
+morpho = null;
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
@@ -182,14 +184,13 @@ console.log('The type of Morpho is now: ' + typeof morpho);
 
 // Bigints represent whole numbers larger than 2^53 - 1. You probably won't 
 // use them a lot.
-
+morpho = 1 n;
 
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);
 
 // Symbols are variables that guaranteed to be unique. You probably won't 
 // use them a lot.
-
 
 console.log('Morpho: ' + morpho);
 console.log('The type of Morpho is now: ' + typeof morpho);

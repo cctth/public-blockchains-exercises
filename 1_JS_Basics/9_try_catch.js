@@ -21,7 +21,7 @@ function divideNumbers(a, b) {
 // but you might get an unexpected result. Strongly typed languages
 // (e.g., JAVA) would catch these errors automatically, but in scripted
 // languages you need to be careful.
-divideNumbers('what', {});
+console.log(divideNumbers('what', {}));
 // NaN means Not a Number.
 
 // JavaScript makes it particularly difficult to catch these errors,
@@ -34,13 +34,17 @@ console.log(typeof NaN);
 // a special return value with a warning on console.log.
 
 function divideNumbers(a, b) {
-    // Your code here.
+    if (typeof a == 'number' & typeof b == 'number') {
+        return a / b;
+    } else {
+        return 'Not valid inputs.'
+    }
 }
 
-divideNumbers('what', {});
-divideNumbers(1, 2);
+console.log(divideNumbers('what', {}));
+console.log(divideNumbers(1, 2));
 
-divideNumbers(1, 0);
+console.log(divideNumbers(1, 0));
 
 // EXERCISE 2. Catch errors.
 ////////////////////////////
@@ -64,7 +68,12 @@ judgePerson(brendan);
 // we catch it with a try and catch statement and print an error message.
 
 function judgePerson(person, cb) {
-    // Your code here.
+    try {
+        let str = person.first + ' ' + person.last + cb()
+        console.log(str);
+    } catch (error) {
+        console.log('Error!')
+    }
 }
 
 brendan = { first: 'Brendan', last: 'Eich', year: 1961 };
@@ -77,4 +86,3 @@ judgePerson(brendan, function() { return ' impacted my life.'; });
 //////////////////////////////
 
 // Now you are ready. Go face the "Final Exercise."
-

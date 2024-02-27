@@ -71,8 +71,7 @@ function judgePerson(person, cb) {
     let str;
     try {
         str = person.first + ' ' + person.last + cb()
-    }
-    catch(error) {
+    } catch (error) {
         console.log('An error occurred. Are you sure you passed a function?');
         return;
     }

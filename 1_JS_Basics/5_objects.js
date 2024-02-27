@@ -42,20 +42,31 @@ console.log(typeof null);
 // decided that the type of null is 'object'.
 // Hint. The property name must contain the full name (Brendan Eich), and
 // the property birth must contain the year in which he was born (1961).
+person = {
+    name: 'Brendan Eich',
+    year: 1961
+};
+console.log(person)
 
 // b. Access the properties of the person object and create a sentence of the
 // type: "X was born in Y." where X is Brendan Eich and Y is 1961.
+sentence = person.name + 'was born in ' + person.year;
+console.log(sentence)
 
 // c. Bonus exercise. Instead of saying that year of birth, you could say that
 // Brendan Eich is Z years old.  
-
+age = 2024 - person.year;
+console.log(person.name + ' is ' + age + ' years old.');
 
 // EXERCISE 2. Add and remove properties to the person object.
 //////////////////////////////////////////////////////
 
 // Now you realize that it makes more sense to split the property 'name' into
 // two: 'first' and 'last' name. Accordingly you delete the propery name.
-
+person.first = 'Brendan';
+person.last = 'Eich';
+delete person.name;
+console.log(person);
 
 
 // EXERCISE 3. Bonus. Constant objects.
@@ -74,7 +85,7 @@ myObject.b = 3; // No error thrown.
 myObject.c = 4; // No error thrown.
 
 // Can you re-assign it? No!
-myObject = 'Brendan'; 
+myObject = 'Brendan';
 // it throws an error, it does not want to be Brendan.
 
 // Explanation. Objects are pointers to memory addresses. You can change

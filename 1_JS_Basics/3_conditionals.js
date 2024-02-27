@@ -43,6 +43,17 @@
 // need to create a new variable with the population of Luzern here.
 // Hint2: Use console.log() to print.
 
+randomNumber = Math.random() * 100000;
+luzernPopulation = 82000;
+
+if (randomNumber > luzernPopulation) {
+    console.log('Go Luzern!')
+} else if (randomNumber === luzernPopulation) {
+    console.log('Are we in the Matrix?')
+} else {
+    console.log('Few but good!')
+}
+
 // EXERCISE 2. Block Party.
 ///////////////////////////
 
@@ -51,14 +62,22 @@
 
 // The following code isn't working. Why?
 if (2 > 1) {
-    let deepThought = 'Everything is obvious once you know the answer.'    
+    let deepThought = 'Everything is obvious once you know the answer.'
 }
 console.log(deepThought);
 
 // a. Fix it using it var instead of let.
+if (2 > 1) {
+    var deepThought = 'Everything is obvious once you know the answer.'
+}
+console.log(deepThought);
 
 // b. Fix it using let.
-
+let deepThought;
+if (2 > 1) {
+    deepThought = 'Everything is obvious once you know the answer.'
+}
+console.log(deepThought);
 
 // EXERCISE 3. Loose vs Strict Comparisons.
 ///////////////////////////////////////////
@@ -67,10 +86,10 @@ console.log(deepThought);
 
 // Run the following loose type comparisons.
 
-if (1 == '1') console.log('True');
+if (1 === '1') console.log('True');
 else console.log('False');
 
-if (0 == false) console.log('True');
+if (0 === false) console.log('True');
 else console.log('False');
 
 if (0 == []) console.log('True');
