@@ -30,7 +30,7 @@ const ethers = require("ethers");
 console.log(ethers.version);
 
 // Update info to match your contract.
-const cAddress = "";
+const cAddress = "0x75C1F3672323247568c10e62E98A3974401B1E1D";
 const cName = "MyERC20";
 
 const notUniMaUrl = process.env.NOT_UNIMA_URL_1;
@@ -60,8 +60,8 @@ const getContract = async(signer) => {
     // Adjust path as needed.
     // Fetch the ABI from the artifacts.
     // It assumes that the contractname is the same as file name.
-    const cABI = require("../artifacts/contracts/" + cName + 
-                           ".sol/" + cName + ".json").abi;
+    const cABI = require("../artifacts/contracts/" + cName +
+        ".sol/" + cName + ".json").abi;
 
     // Create the contract and print the address.
     const c = new ethers.Contract(cAddress, cABI, signer);
@@ -71,20 +71,66 @@ const getContract = async(signer) => {
     return c;
 };
 
-const transfer = async () => {
+const transfer = async() => {
+    // Get contract.
+    const contract = await getContract(deployer);
 
-    // Your code here.
+    // Check balances.
+    let balance = await contract.balanceOf(deployer.address);
+    console.log("Current sender balance: ", Number(balance));
+    let balanceReceiver = await contract.balanceOf(signer.address);
+    console.log("Current receiver balance: ", Number(balanceReceiver));
+
+    // Transfer.
+    let amountToTransfer = 10;
+    console.log("Tokens to send: ", amountToTransfer);
+    let tx = await contract.transfer(signer.address, amountToTransfer);
+    await waitForTx(tx);
+
+    // Check balances.
+    let balance2 = await contract.balanceOf(deployer.address);
+    console.log("Updated sender balance: ", Number(balance2));
+    let balanceReceiver2 = await contract.balanceOf(signer.address);
+    console.log("Current receiver balance: ", Number(balanceReceiver2));
 };
 
-// transfer();
+transfer();
 
-const transferFrom = async () => {
+const transferFrom = async() => {
+    // Get contracts.
+    const contract = await getContract(deployer);
+    const contractReceiver = await getContract(signer);
 
-    // Your code here.
+    // Approve.
+    let tx = await contract.approve(signer.address, 100);
+    await waitForTx(tx);
+    console.log("Receiver Signer approved for spending!")
+
+    // Check balances.
+    let balance = await contract.balanceOf(deployer.address);
+    console.log("Current sender balance: ", Number(balance));
+    let balanceReceiver = await contract.balanceOf(signer.address);
+    console.log("Current receiver balance: ", Number(balanceReceiver));
+
+    // Transfer from.
+    let amountToTransfer = 10;
+    console.log("Tokens to transfer: ", amountToTransfer);
+    tx = await contractReceiver.transferFrom(deployer.address, signer.address, amountToTransfer);
+    await waitForTx(tx);
+
+    // Check balances.
+    let balance2 = await contract.balanceOf(deployer.address);
+    console.log("Updated sender balance: ", Number(balance2));
+    let balanceReceiver2 = await contract.balanceOf(signer.address);
+    console.log("Current receiver balance: ", Number(balanceReceiver2));
+
+    // Check allowance.
+    let allowance = await contract.allowance(deployer.address, signer.address);
+    console.log("Allowance left: ", Number(allowance));
 
 };
 
-// transferFrom();
+transferFrom();
 
 
 
@@ -100,12 +146,8 @@ const transferFrom = async () => {
 // can increase the total supply and assign the new supply to an address of 
 // choice (can't be the null address).
 
-const mint = async (amount) => {
-  
+const mint = async(amount) => {
+
     // Your code here.
 };
 // mint(1000);
-
-
-
-

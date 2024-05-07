@@ -1,4 +1,3 @@
-
 // Loading path module for operations with file paths.
 const path = require('path');
 
@@ -76,7 +75,7 @@ const mainnetProvider = new ethers.JsonRpcProvider(mainnetUrl);
 // })();
 
 // However, the async function could also be named, and the result is:
-const network = async () => {
+const network = async() => {
     let net = await mainnetProvider.getNetwork();
     console.log('Async/Await!');
     console.log('Provider\'s network name: ', net.name);
@@ -84,7 +83,7 @@ const network = async () => {
 };
 
 // which you can then call:
-// network();
+network();
 
 // The second (less compact) notation has the advantage that we can invoke
 // the code only when needed, so it is preferred in this exercise sheet.
@@ -111,7 +110,7 @@ const network = async () => {
 // with the value displayed on Etherscan.io.
 
 // // Look up the current block number
-const blockNum = async () => {
+const blockNum = async() => {
     let blockNumber = await mainnetProvider.getBlockNumber();
     console.log('Mainnet block number: ', blockNumber);
 };
@@ -132,7 +131,7 @@ const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
 
 // Look up the current block number in Mainnet and Sepolia.
-const blockDiff = async () => {
+const blockDiff = async() => {
     let blockNumberM = await mainnetProvider.getBlockNumber();
     console.log('Mainnet block number: ', blockNumberM);
 
@@ -140,7 +139,7 @@ const blockDiff = async () => {
     console.log('Sepolia block number: ', blockNumberS);
 
     console.log('Mainnet is ' + (blockNumberM - blockNumberS) +
-                ' blocks ahead');
+        ' blocks ahead');
 }
 
 // blockDiff();
@@ -162,10 +161,10 @@ const blockDiff = async () => {
 // results?
 
 // Asynchronous functions with pre-defined input parameters.
-const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
+const checkBlockTime = async(providerName = "mainnet", blocks2check = 3) => {
 
     // JS Ternary Operator.
-    let provider = providerName.toLowerCase() === "mainnet" ? 
+    let provider = providerName.toLowerCase() === "mainnet" ?
         mainnetProvider : sepoliaProvider;
 
     // Get initial block number and timestamp.
@@ -177,10 +176,10 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
     let blocksChecked = 0;
 
     // Poll the blockchain every second to check for a new block number.
-    let myInterval = setInterval(async () => {
+    let myInterval = setInterval(async() => {
 
         let newBlockNumber = await provider.getBlockNumber();
-        
+
         // Compare block numbers.
         if (newBlockNumber !== blockNumber) {
             // Check time.
@@ -188,7 +187,7 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
             let timeDiff = d2 - d;
             console.log(providerName, "New Block num:", newBlockNumber);
             console.log(providerName, "It took: ", timeDiff);
-            
+
             // Update loop variables.
             d = d2;
             if (++blocksChecked >= blocks2check) {
@@ -198,7 +197,7 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
         }
 
     }, 1000);
-    
+
 };
 
 // checkBlockTime("Mainnet");
@@ -213,10 +212,10 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
 // Do it! 
 // Hint: setInterval/clearInterval are replaced by on/off calls.
 
-const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
+const checkBlockTime2 = async(providerName = "mainnet", blocks2check = 3) => {
 
     // JS Ternary Operator.
-    let provider = providerName.toLowerCase() === "mainnet" ? 
+    let provider = providerName.toLowerCase() === "mainnet" ?
         mainnetProvider : sepoliaProvider;
 
     // Get initial block number and timestamp.
@@ -225,13 +224,13 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
     let blocksChecked = 0;
 
     provider.on("block", newBlockNumber => {
-        
+
         // Check time.
         let d2 = Date.now();
         let timeDiff = d2 - d;
         console.log(providerName, "New Block num:", newBlockNumber);
         console.log(providerName, "It took: ", timeDiff);
-        
+
         // Update loop variables.
         d = d2;
 
@@ -263,7 +262,7 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
 // d. Transactions can be prefetched, so that you save one blockchain call.
 // Hint: pass `true` as second parameter to .getBlock(blockNumber, true).
 
-const blockInfo = async () => {
+const blockInfo = async() => {
     let blockNumber = await mainnetProvider.getBlockNumber();
     let block = await mainnetProvider.getBlock(blockNumber);
     console.log(block);
@@ -290,7 +289,7 @@ const blockInfo = async () => {
 // Resolve the name 'unima.eth' on the Goerli network, then lookup the
 // address.
 
-const ens = async () => {
+const ens = async() => {
     let unimaAddress = await sepoliaProvider.resolveName('unima.eth');
     console.log(unimaAddress);
 
@@ -316,7 +315,7 @@ const ens = async () => {
 // creator of Ethereum? 
 // Hint: try vitalik.eth
 
-const balance = async (ensName = "unima.eth") => {
+const balance = async(ensName = "unima.eth") => {
 
     // Get the balance for "unima.eth".
     let bal = await sepoliaProvider.getBalance(ensName);
@@ -328,10 +327,9 @@ const balance = async (ensName = "unima.eth") => {
     // Check the balance is the same when resolving the ens address.
     let unimaAddress = await sepoliaProvider.resolveName(ensName);
     let bal2 = await sepoliaProvider.getBalance(unimaAddress);
-    
+
     console.log('Are the two balances equal?', bal === bal2 ? 'Yes' : 'No');
 
 };
 
 // balance("vitalik.eth");
-

@@ -16,7 +16,7 @@ interface IERC20 {
 }
 
 
-contract MyERC20 is IERC20 {
+contract MyERC20_solution is IERC20 {
     // Implementation of interface...
 
     string public constant name = "MyERC20";

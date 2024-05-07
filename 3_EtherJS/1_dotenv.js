@@ -40,18 +40,20 @@ console.log(pathToDotEnv);
 // Hint: use path.join(...) to build a relative path to the .env file. 
 
 // Edit this line, then load the .env file:
-// pathToDotEnv = path.join(...);
+pathToDotEnv = path.join(__dirname, '..', '.env');
 console.log(pathToDotEnv);
 
-// Your code here.
+require("dotenv").config({ path: pathToDotEnv });
 
 // c. Bonus. Load the 'fs' native module and use the method `existsSync` to 
 // check if the path to the .dotenv file is correct.
 
-// Your code here.
+const fs = require('fs');
 
-
-
+console.log(pathToDotEnv);
+if (fs.existsSync(pathToDotEnv)) {
+    console.log('You found the .env file!');
+}
 
 // Exercise 2. Create and fill in .env file.
 ////////////////////////////////////////////
@@ -74,11 +76,11 @@ exercise = 2;
 // Hint1: you can copy .env_sample, modify its content and save it as .env.
 // Hint2: there are several tutorials about how to export the private key from
 // MetaMask, e.g.: https://www.youtube.com/watch?v=KSY_bSkzb9c
- 
+
 // See if it worked.
 console.log(process.env);
 
-// exit();
+exit();
 
 // Exercise 3. Check the content of the .env file.
 //////////////////////////////////////////////////
@@ -92,9 +94,14 @@ exercise = '3a';
 // if statement that prints a warning message if empty.
 // Hint: https://javascript.info/ifelse
 
-// Your code here!
+let privateKey = process.env.METAMASK_PRIVATE_KEY;
+if (privateKey === "") {
+    console.log('Private Key empty!')
+} else {
+    console.log('Well done!')
+}
 
-// exit();
+exit();
 
 // b. Create an array with all the names of the variables written in the .env
 // file. Then print the lenght of the array.
@@ -102,9 +109,16 @@ exercise = '3a';
 
 exercise = '3b';
 
-// Your code here!
+let variables_env = ["INFURA_KEY", "INFURA_SEPOLIA", "INFURA_GOERLI", "INFURA_MAINNET",
+    "ALCHEMY_KEY", "ALCHEMY_SEPOLIA", "ALCHEMY_GOERLI", "ALCHEMY_MAINNET",
+    "METAMASK_1_ADDRESS", "METAMASK_1_PRIVATE_KEY",
+    "METAMASK_2_ADDRESS", "METAMASK_2_PRIVATE_KEY",
+    "ETHERSCAN_KEY"
+]
 
-// exit();
+console.log('Lenght of variable_env: ' + variables_env.length);
+
+exit();
 
 // c. Loop through all the elements of the array and check that the variable
 // is set and non-empty under `process.env`.
@@ -121,9 +135,16 @@ variablesToCheck.forEach(v => {
 
 // Solution 2. For-loop.
 
-// Your code here!
+for (let i = 0; i < variables_env.length; i++) {
+    const v = variables_env[i];
+    if (!process.env[v]) {
+        console.log('Missing ' + v)
+    } else if (process.env[v] === "") {
+        console.log(v + ' is empty')
+    } else {
+        console.log('Everythin is set in .env')
+    }
+}
 
 
-// exit();
-
-
+exit();

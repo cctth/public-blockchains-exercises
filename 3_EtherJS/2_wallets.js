@@ -20,8 +20,13 @@ const ethers = require("ethers");
 // and the mnenomic phrase.
 // Hint: ethers.Wallet.createRandom();
 
+const wallet = ethers.Wallet.createRandom();
 
-// exit();
+console.log('Address: ' + wallet.address);
+console.log('Private Key: ' + wallet.privateKey);
+console.log('Address: ' + wallet.mnemonic.phrase);
+
+exit();
 
 // b. Bonus. Print the derivation path of the wallet and check that it is
 // equal to `baseDevPath`. 
