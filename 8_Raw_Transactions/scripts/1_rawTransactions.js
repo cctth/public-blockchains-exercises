@@ -7,10 +7,10 @@ const { ethers } = require("ethers");
 console.log(ethers.version);
 
 // Todo: Update this contract address.
-const cAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
+const cAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const cName = "Greeting";
 
-const getContract = async (
+const getContract = async(
     signer = deployer
 ) => {
     // Fetch the ABI from the artifacts.
@@ -59,8 +59,8 @@ const getContract = async (
 // contract TestContract.
 // Hint: No parentheses.
 
-const rawTransactionBasic = async () => {
-    
+const rawTransactionBasic = async() => {
+
     const [signer, deployer] = await hre.ethers.getSigners();
     console.log("Signer 1: ", signer.address);
     console.log("Signer 2: ", deployer.address);
@@ -68,26 +68,26 @@ const rawTransactionBasic = async () => {
 
     console.log("Exercise 1. Raw Transactions with Encoding from Hashex.org.");
     console.log();
-    
+
     const contract = await getContract(deployer);
     // Reset contract state.
     await contract.reset();
 
     let greeting = await contract.greeting();
     console.log("Current greeting:", greeting);
-    
+
     // Updating greeting.
     await contract.setGreeting("Buongiorno");
-    
+
     greeting = await contract.greeting();
     console.log("Updated greeting:", greeting);
-    
+
     console.log();
     console.log("**Raw transaction**: reset()");
     console.log();
 
     // Fill in this value with the encoded signature of reset():
-    let encodedSignature = "ENCODED_SIGNATURE_HERE"; 
+    let encodedSignature = "d826f88f";
     let calldata = "0x" + encodedSignature;
 
     // Raw transaction.
@@ -95,12 +95,12 @@ const rawTransactionBasic = async () => {
         to: cAddress,
         data: calldata
     });
-    
+
     await waitForTx(tx);
-    
+
     greeting = await contract.greeting();
     console.log("Greeting after reset:", greeting);
-    
+
 };
 
 // rawTransactionBasic();
@@ -125,11 +125,14 @@ const rawTransactionBasic = async () => {
 // Takes a function's signature as input and returns the Keccak256 hash.
 const doKeccak256 = (signature) => {
 
-    // Your code here.
+    // Convert string to bytes.
+    signature = ethers.toUtf8Bytes(signature);
+    // Hash the bytes.
+    return ethers.keccak256(signature);
 
 };
 
-const rawTransactionDIY = async () => {
+const rawTransactionDIY = async() => {
 
     const [signer, deployer] = await hre.ethers.getSigners();
     console.log("Signer 1: ", signer.address);
@@ -151,21 +154,22 @@ const rawTransactionDIY = async () => {
 
     greeting = await contract.greeting();
     console.log("Updated greeting:", greeting);
-    
+
     console.log();
     console.log("**Raw transaction**: reset()");
     console.log();
-    
+
     // Hash the signature with Keccak256.
     let signature = "reset()";
-    
+
     let calldata = doKeccak256(signature);
     console.log("Hashed signature:", calldata);
 
 
     // Your code here!
     // let calldata = ... ;
-
+    calldata = calldata.substring(0, 10); // 8 + 2 (0x).
+    console.log("Taking 4 Bytes:  ", calldata);
 
     const tx = await signer.sendTransaction({
         to: cAddress,
@@ -205,12 +209,18 @@ const rawTransactionDIY = async () => {
 // and return the first 4 bytes. Optionally, takes a verbose
 // parameter to print to console its operations.
 const encodeSignature = (signature, verbose) => {
-    
-    // Your code here.
+
+    // Hash the signature with Keccak256.    
+    let hashed = doKeccak256(signature);
+    if (verbose) console.log("Hashed signature:", hashed);
+    // Take the first 4 bytes.
+    hashed = hashed.substring(0, 10); // 8 + 2 (0x).
+    if (verbose) console.log("Taking 4 Bytes:  ", hashed);
+    return hashed;
 
 };
 
-const rawTransactionStaticParams = async () => {
+const rawTransactionStaticParams = async() => {
 
     const [signer, deployer] = await hre.ethers.getSigners();
     console.log("Signer 1: ", signer.address);
@@ -236,6 +246,12 @@ const rawTransactionStaticParams = async () => {
     // Your code here.
 
     // let calldata = ... ;
+    let encodedParam = ethers.zeroPadValue(ethers.toBeArray(1), 32);
+    encodedParam = encodedParam.substring(2);
+    console.log(encodedParam);
+
+    calldata = encodedSignature + encodedParam;
+    console.log("Calldata:      ", calldata);
 
     console.log();
     console.log("**Raw transaction**: chooseGreeting(uint8)");
@@ -255,7 +271,7 @@ const rawTransactionStaticParams = async () => {
     console.log();
     console.log("**Raw transaction**: reset()");
     console.log();
-    
+
     // Reset.
     signature = "reset()";
     calldata = encodeSignature(signature);
@@ -268,7 +284,7 @@ const rawTransactionStaticParams = async () => {
     await waitForTx(tx);
 
     greeting = await contract.greeting();
-    console.log("Greeting after reset:", greeting);    
+    console.log("Greeting after reset:", greeting);
 };
 
 // rawTransactionStaticParams();
@@ -290,7 +306,7 @@ const rawTransactionStaticParams = async () => {
 // Hint2: You can compare your own encoding with the output from
 // https://abi.hashex.org/
 
-const rawTransactionDynamicParams = async () => {
+const rawTransactionDynamicParams = async() => {
 
     const [signer, deployer] = await hre.ethers.getSigners();
     console.log("Signer 1: ", signer.address);
@@ -312,13 +328,20 @@ const rawTransactionDynamicParams = async () => {
     let signature = "setGreeting(string)";
     // Hash the signature with Keccak256 and takes 4 bytes.
     let calldata = encodeSignature(signature);
-    
+
     // Encode String parameter "Buongiorno", or get inspired here:
     // https://www.berlitz.com/blog/hello-different-languages
 
-   
+
     // Your code here.
     // let calldata = ... ;
+    const abc = new ethers.AbiCoder();
+    let encodedParam = abc.encode(["string"], ["Buongiorno"]);
+    encodedParam = encodedParam.substring(2);
+    console.log("Encoded params:", encodedParam);
+
+    calldata += encodedParam;
+    console.log("Calldata:      ", calldata);
 
     console.log();
     console.log("**Raw transaction**: setGreeting(string)");
@@ -338,7 +361,7 @@ const rawTransactionDynamicParams = async () => {
     console.log();
     console.log("**Raw transaction**: reset()");
     console.log();
-    
+
     // Reset.
     signature = "reset()";
     calldata = encodeSignature(signature);
@@ -351,7 +374,7 @@ const rawTransactionDynamicParams = async () => {
     await waitForTx(tx);
 
     greeting = await contract.greeting();
-    console.log("Greeting after reset:", greeting);    
+    console.log("Greeting after reset:", greeting);
 };
 
 // rawTransactionDynamicParams();
@@ -359,7 +382,7 @@ const rawTransactionDynamicParams = async () => {
 
 // Helper:
 
-const waitForTx = async (tx, verbose) => {
+const waitForTx = async(tx, verbose) => {
     console.log();
     console.log("Transaction in mempool...");
     if (verbose) console.log(tx);
