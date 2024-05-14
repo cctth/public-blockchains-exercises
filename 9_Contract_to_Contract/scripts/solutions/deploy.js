@@ -10,39 +10,39 @@ const fs = require('fs');
 const path = require('path');
 
 const _saveAddresses = (addresses) => {
-  fs.writeFileSync(path.join(__dirname, ".addresses.json"),
-                   JSON.stringify(addresses));
-  console.log("Deployed addresses saved to .addresses.json")
+    fs.writeFileSync(path.join(__dirname, ".addresses.json"),
+        JSON.stringify(addresses));
+    console.log("Deployed addresses saved to .addresses.json")
 };
 
 async function main() {
-  
-  const TestContract = await hre.ethers.getContractFactory("TestContract");
-  const tc = await TestContract.deploy();
-  await tc.deployed();
 
-  console.log(`Test Contract deployed to ${tc.address}`);
+    const TestContract = await hre.ethers.getContractFactory("TestContract");
+    const tc = await TestContract.deploy();
+    await tc.waitForDeployment();
 
-  const Sender = await hre.ethers.getContractFactory("Sender");
-  const se = await Sender.deploy();
-  await se.deployed();
+    console.log(`Test Contract deployed to ${tc.target}`);
 
-  console.log(`Sender Contract deployed to ${se.address}`);
+    const Sender = await hre.ethers.getContractFactory("Sender");
+    const se = await Sender.deploy();
+    await se.waitForDeployment();
 
-  const Receiver = await hre.ethers.getContractFactory("Receiver");
-  const re = await Receiver.deploy();
-  await re.deployed();
+    console.log(`Sender Contract deployed to ${se.target}`);
 
-  console.log(`Receiver Contract deployed to ${re.address}`);
+    const Receiver = await hre.ethers.getContractFactory("Receiver");
+    const re = await Receiver.deploy();
+    await re.waitForDeployment();
 
-  // Save the addresses so that we can re-use them in the interact.js script.
-  // Order matters.
-  _saveAddresses([ tc.address, se.address, re.address ]);
+    console.log(`Receiver Contract deployed to ${re.target}`);
+
+    // Save the addresses so that we can re-use them in the interact.js script.
+    // Order matters.
+    _saveAddresses([tc.target, se.target, re.target]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+    console.error(error);
+    process.exitCode = 1;
 });
